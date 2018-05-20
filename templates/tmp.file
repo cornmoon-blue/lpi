@@ -35,6 +35,11 @@ def weixin(request):
        MsgType = xml.find('MsgType').text
        Content = xml.find('Content').text
        MsgId = xml.find('MsgId').text
+       
+       if MsgType=='text':
+           if content.lower()=='help':
+               replayText = '这是帮助'
+       
        reply_xml = """<xml>
        <ToUserName><![CDATA[%s]]></ToUserName>
        <FromUserName><![CDATA[%s]]></FromUserName>
@@ -50,7 +55,7 @@ def checkSignature(request):
     nonce=request.GET.get('nonce',None)
     echostr=request.GET.get('echostr',None)
     #这里的token我放在setting，可以根据自己需求修改
-    token="italia200666"
+    token="yourtiken"
 
     tmplist=[token,timestamp,nonce]
     tmplist.sort()
