@@ -16,94 +16,94 @@ from fibonacci import fibonacci_predicted
 app_root = os.path.dirname(__file__)
 templates_root = os.path.join(app_root, 'templates')
 a_render = web.template.render(templates_root)
+print a_render.reply_text('fromUser','toUser',int(time.time()),'replayText')
 
 @csrf_exempt
 def weixin(request):
-    if request.method=='GET':
-        response=HttpResponse(checkSignature(request))
-        return response
-    else:
-       xmlstr = smart_str(request.body)
-       xml = etree.fromstring(xmlstr)
+  if request.method=='GET':
+    response=HttpResponse(checkSignature(request))
+    return response
+  else:
+   xmlstr = smart_str(request.body)
+   xml = etree.fromstring(xmlstr)
 
-       ToUserName = xml.find('ToUserName').text
-       FromUserName = xml.find('FromUserName').text
-       CreateTime = xml.find('CreateTime').text
-       MsgType = xml.find('MsgType').text
-       #Content = xml.find('Content').text
-       MsgId = xml.find('MsgId').text
+   ToUserName = xml.find('ToUserName').text
+   FromUserName = xml.find('FromUserName').text
+   CreateTime = xml.find('CreateTime').text
+   MsgType = xml.find('MsgType').text #Content = xml.find('Content').text
+   MsgId = xml.find('MsgId').text
 
-        if MsgType=='text':
-            content=xml.find("Content").text  #获得用户所输入的内容
-            if content.lower()=='help':
-                replayText = '（1）输入6位股票代码可返回股票信息，股票代码后附“+”返回简洁即时信息。\n'+\
-                '（2）输入110、119或120、121、140可获取股票筛选信息。\n'\
-                '其他功能正在开发中，期望您的更多建议。\n\n'\
-                '『可将我们的图标添加到桌面，便于您访问。』'
-                reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
-                return HttpResponse(reply_xml)
-            elif content=='101':
-                msg_subject101 = 'stock-holder-analysis-101'
-                replayText = fetch_report_from_Email(msg_subject101)
-                reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
-                return HttpResponse(reply_xml)
-            elif content=='110':
-                msg_subject110 = 'stockanalysis-110'
-                replayText = fetch_report_from_Email(msg_subject110)
-                reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
-                return HttpResponse(reply_xml)
-            elif content=='119':
-                msg_subject119 = 'stockanalysis-119'
-                replayText = fetch_report_from_Email(msg_subject119)
-                reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
-                return HttpResponse(reply_xml)
-            elif content=='120':
-                msg_subject120 = 'stockanalysis-120'
-                replayText = fetch_report_from_Email(msg_subject120)
-                reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
-                return HttpResponse(reply_xml)
-            elif content=='121':
-                msg_subject121 = 'stockanalysis-121'
-                replayText = fetch_report_from_Email(msg_subject121)
-                reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
-                return HttpResponse(reply_xml)
-            elif content=='140':
-                msg_subject140 = 'stockanalysis-140'
-                replayText = fetch_report_from_Email(msg_subject140)
-                reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
-                return HttpResponse(reply_xml)
-            elif len(content)==7 and content[6]=='+':
-                stockcode = content[0:6]
-                shinfo = StockInfo(stockcode)  #创建实例
-                replayText = shinfo.output_plain_info()  #生成短消息回复信息
-                reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
-                return HttpResponse(reply_xml)
-            elif len(content)==6:
-                stockcode=content
-                shinfo = StockInfo(stockcode)  #创建实例
-                if shinfo.is_stockcode:
-                    newspage_data = shinfo.output_news_data()
-                    reply_xml = a_render.reply_xp(fromUser,toUser,int(time.time()),newspage_data)  #多项图文输出
-                    return HttpResponse(reply_xml)
-                else:
-                    replayText = shinfo.output_plain_info()  #生成回复信息
-                    reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
-                    return HttpResponse(reply_xml)
-            elif content[0:5]=='0.618':
-                replayText = content + '\n' + str(fibonacci_predicted(content))
-                reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
-                return HttpResponse(reply_xml)
-            else:
-                replayText = '您的输入......我现在还看不懂。'
-                reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
-                return HttpResponse(reply_xml)
-        elif msgType=='event':
-            content = xml.find("Event").text
-            if content=='subscribe':  #如果是用户订阅事件，回复欢迎信息
-                replayText = u'感谢您关注！本公众号为您提供股票查询分析服务，回复“help”了解操作方法。\n\n'+\
-                u'功能：（1）输入6位股票代码返回股票信息；（2）输入110、119或120、121、140返回股票筛选信息。'
-                reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
-                return HttpResponse(reply_xml)
+  if MsgType=='text':
+      content=xml.find("Content").text  #获得用户所输入的内容
+      if content.lower()=='help':
+        replayText = '（1）输入6位股票代码可返回股票信息，股票代码后附“+”返回简洁即时信息。\n'+\
+        '（2）输入110、119或120、121、140可获取股票筛选信息。\n'\
+        '其他功能正在开发中，期望您的更多建议。\n\n'\
+        '『可将我们的图标添加到桌面，便于您访问。』'
+        reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
+        return HttpResponse(reply_xml)
+      elif content=='101':
+        msg_subject101 = 'stock-holder-analysis-101'
+        replayText = fetch_report_from_Email(msg_subject101)
+        reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
+        return HttpResponse(reply_xml)
+      elif content=='110':
+        msg_subject110 = 'stockanalysis-110'
+        replayText = fetch_report_from_Email(msg_subject110)
+        reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
+        return HttpResponse(reply_xml)
+      elif content=='119':
+        msg_subject119 = 'stockanalysis-119'
+        replayText = fetch_report_from_Email(msg_subject119)
+        reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
+        return HttpResponse(reply_xml)
+      elif content=='120':
+        msg_subject120 = 'stockanalysis-120'
+        replayText = fetch_report_from_Email(msg_subject120)
+        reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
+        return HttpResponse(reply_xml)
+      elif content=='121':
+        msg_subject121 = 'stockanalysis-121'
+        replayText = fetch_report_from_Email(msg_subject121)
+        reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
+        return HttpResponse(reply_xml)
+      elif content=='140':
+        msg_subject140 = 'stockanalysis-140'
+        replayText = fetch_report_from_Email(msg_subject140)
+        reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
+        return HttpResponse(reply_xml)
+      elif len(content)==7 and content[6]=='+':
+        stockcode = content[0:6]
+        shinfo = StockInfo(stockcode)  #创建实例
+        replayText = shinfo.output_plain_info()  #生成短消息回复信息
+        reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
+        return HttpResponse(reply_xml)
+      elif len(content)==6:
+        stockcode=content
+        shinfo = StockInfo(stockcode)  #创建实例
+        if shinfo.is_stockcode:
+          newspage_data = shinfo.output_news_data()
+          reply_xml = a_render.reply_xp(fromUser,toUser,int(time.time()),newspage_data)  #多项图文输出
+          return HttpResponse(reply_xml)
+        else:
+          replayText = shinfo.output_plain_info()  #生成回复信息
+          reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
+          return HttpResponse(reply_xml)
+      elif content[0:5]=='0.618':
+        replayText = content + '\n' + str(fibonacci_predicted(content))
+        reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
+        return HttpResponse(reply_xml)
+      else:
+        replayText = '您的输入......我现在还看不懂。'
+        reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
+        return HttpResponse(reply_xml)
+  elif msgType=='event':
+      content = xml.find("Event").text
+      if content=='subscribe':  #如果是用户订阅事件，回复欢迎信息
+        replayText = u'感谢您关注！本公众号为您提供股票查询分析服务，回复“help”了解操作方法。\n\n'+\
+        u'功能：（1）输入6位股票代码返回股票信息；（2）输入110、119或120、121、140返回股票筛选信息。'
+        reply_xml = a_render.reply_text(fromUser,toUser,int(time.time()),replayText)
+        return HttpResponse(reply_xml)
 
 def checkSignature(request):
     signature=request.GET.get('signature',None)
@@ -118,6 +118,6 @@ def checkSignature(request):
     tmpstr="%s%s%s"%tuple(tmplist)
     tmpstr=hashlib.sha1(tmpstr).hexdigest()
     if tmpstr==signature:
-        return echostr
+      return echostr
     else:
-        return None
+      return None
