@@ -24,7 +24,7 @@ class WeixinInterface:
         nonce=data.nonce
         echostr=data.echostr
         #自己的token
-        token="italia2006"  #这里改写你在微信公众平台里输入的token
+        token="yourtoken"  #这里改写你在微信公众平台里输入的token
         #字典序排序
         list=[token,timestamp,nonce]
         list.sort()
@@ -100,6 +100,6 @@ class WeixinInterface:
         elif msgType=='event':
             content = xml.find("Event").text
             if content=='subscribe':  #如果是用户订阅事件，回复欢迎信息
-                replayText = u'感谢您关注 La Passione Italia！本公众号为您提供股票查询分析服务，回复“help”了解操作方法。\n\n'+\
+                replayText = u'感谢您关注！本公众号为您提供股票查询分析服务，回复“help”了解操作方法。\n\n'+\
                 u'功能：（1）输入6位股票代码返回股票信息；（2）输入110、119或120、121、140返回股票筛选信息。'
                 return self.render.reply_text(fromUser,toUser,int(time.time()),replayText)
