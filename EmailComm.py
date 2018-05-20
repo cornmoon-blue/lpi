@@ -9,8 +9,8 @@ sys.setdefaultencoding('utf-8')
 def fetch_report_from_Email(msg_subject):
     #固定从170邮箱取信息，参数对应不同类型信息内容。返回值为信息字符串
     host = "pop3.sina.com"  # pop3服务器地址
-    username = "17090880270m0@sina.cn"  # 用户名
-    password = "qubiezhen"  # 密码
+    username = "name@sina.cn"  # 用户名
+    password = "pwddd"  # 密码
     pop = poplib.POP3(host)  # 创建一个pop3对象，这个时候实际上已经连接上服务器了
     #pp.set_debuglevel(1) # 设置调试模式，可以看到与服务器的交互信息
 
@@ -38,11 +38,11 @@ def mail_send_message(mail_subject,message_text):
     #参数：邮件主题，消息内容
 	#text = analysis_text.decode('utf8')
 	smtpserver = 'smtp.sina.com'  #邮件服务器
-	username = '17090880270m0@sina.cn'  #邮件账号
-	password = 'qubiezhen'   #邮件密码
+	username = 'name@sina.cn'  #邮件账号
+	password = 'pwd'   #邮件密码
 
-	from_addr = '17090880270m0@sina.cn'   #发件人
-	to_addr = '17090880270m0@sina.cn'     #收件人
+	from_addr = 'name@sina.cn'   #发件人
+	to_addr = 'name@sina.cn'     #收件人
 	#send_time = email.utils.formatdate(time.time(),True)
 	send_time = time.strftime('%Y-%m-%d %H:%M:%S')  #时间戳
 
