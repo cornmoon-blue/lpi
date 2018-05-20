@@ -1,0 +1,22 @@
+$def with (toUser,fromUser,createTime,titleA,descA,picurlA,urlA,titleB,descB,picurlB,urlB)
+<xml>
+<ToUserName><![CDATA[$toUser]]></ToUserName>
+<FromUserName><![CDATA[$fromUser]]></FromUserName>
+<CreateTime>$createTime</CreateTime>
+<MsgType><![CDATA[news]]></MsgType>
+<ArticleCount>2</ArticleCount>
+<Articles>
+	<item>
+	<Title><![CDATA[$titleA]]></Title>
+	<Description><![CDATA[$descA]]></Description>
+	<PicUrl><![CDATA[$picurlA]]></PicUrl>
+	<Url><![CDATA[$urlA]]></Url>
+	</item>
+    <item>
+	<Title><![CDATA[$titleB]]></Title>
+	<Description><![CDATA[$descB]]></Description>
+	<PicUrl><![CDATA[$picurlB]]></PicUrl>
+	<Url><![CDATA[$urlB]]></Url>
+	</item>
+</Articles>
+</xml>
